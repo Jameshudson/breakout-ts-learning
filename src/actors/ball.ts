@@ -31,7 +31,7 @@ export class Ball extends ex.Actor {
             this.engine.currentScene.emit('brickRemove', ev.other);
         }
 
-        let intersection = ev.intersection.normalize()
+        const intersection = ev.intersection.normalize()
 
         if (Math.abs(intersection.x) > Math.abs(intersection.y)) {
             this.vel.x *= -1
