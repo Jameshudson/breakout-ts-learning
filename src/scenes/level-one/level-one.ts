@@ -37,7 +37,7 @@ export class LevelOne extends ex.Scene {
         this.add(paddle);
         this.add(ball);
 
-        let brickWidth = engine.drawWidth / this._columns - this._padding - this._padding / this._columns;
+        const brickWidth = engine.drawWidth / this._columns - this._padding - this._padding / this._columns;
 
         for (let j = 0; j < this._rows; j++) {
             for (let i = 0; i < this._columns; i++) {
@@ -52,7 +52,7 @@ export class LevelOne extends ex.Scene {
             }
         }
 
-        this.on('brickRemove', (env) => {
+        this.on('brickRemove', env => {
             this.score += 10;
         });
     }
