@@ -1,6 +1,5 @@
 import * as ex from 'excalibur';
 import { LevelOne } from './scenes/level-one/level-one';
-import { Player } from './actors/player/player';
 import { Resources } from './resources';
 
 class Game extends ex.Engine {
@@ -15,13 +14,8 @@ class Game extends ex.Engine {
 
 const game = new Game();
 const levelOne = new LevelOne(game);
-const player = new Player();
-player.addDrawing(Resources.Sword);
-
-levelOne.add(player);
 
 game.add('levelOne', levelOne);
-
 
 let loader = new ex.Loader();
 for (let key in Resources) {
