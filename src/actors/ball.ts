@@ -1,5 +1,4 @@
 import * as ex from 'excalibur';
-import {GameEvent} from "excalibur";
 
 export class Ball extends ex.Actor {
 
