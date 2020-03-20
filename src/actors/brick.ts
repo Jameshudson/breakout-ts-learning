@@ -26,15 +26,14 @@ export class Brick extends ex.Actor {
         this.collisionType = ex.CollisionType.Fixed;
 
         this.on(ex.Events.EventTypes.PreCollision, (ev) => {
-            const self: Brick = this;
 
-            self.health -= 1;
-            self.engine.currentScene.emit('scoreupdate', ev);
+            this.health -= 1;
+            this.engine.currentScene.emit('scoreupdate', ev);
 
-            if (self.health <= 0) {
-                self.kill();
+            if (this.health <= 0) {
+                this.kill();
             } else {
-                self.color = self.colours[self.health];
+                this.color = this.colours[this.health];
             }
         });
     }

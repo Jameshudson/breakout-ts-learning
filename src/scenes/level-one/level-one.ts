@@ -44,16 +44,14 @@ export class LevelOne extends ex.Scene {
         }
 
         this.on('scoreupdate', (ev) => {
-            const self: LevelOne = this;
-            self.score += 10;
-            self.scoreLabel.text = 'Total score: ' + this.score;
+            this.score += 10;
+            this.scoreLabel.text = 'Total score: ' + this.score;
         });
         this.on('gameover', (env) => {
-            const self: LevelOne = this;
             const gameOverLabel: ex.Label = new ex.Label('Loser', engine.halfDrawHeight, engine.halfDrawWidth );
             gameOverLabel.fontSize = 50;
-            
-            self.add(gameOverLabel);
+
+            this.add(gameOverLabel);
             engine.stop();
         })
     }

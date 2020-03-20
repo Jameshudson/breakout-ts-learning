@@ -18,43 +18,38 @@ export class Ball extends ex.Actor {
         this.collisionType = ex.CollisionType.Active;
 
         this.engine.input.pointers.primary.on('move',  (ev) => {
-            const self: Ball = this;
-            if (self.paddle !== null){
-                self.pos.x = ev.target.lastWorldPos.x;
+            if (this.paddle !== null){
+                this.pos.x = ev.target.lastWorldPos.x;
             }
         });
         this.engine.input.pointers.primary.on('down', (evt) => {
-            const self: Ball = this;
-
-            self.paddle = null;
-            self.vel.setTo(700, 600);
+            this.paddle = null;
+            this.vel.setTo(700, 600);
         });
         this.on(ex.Events.EventTypes.PreCollision, (ev) => {
-            const self: Ball = this;
             const intersection: ex.Vector = ev.intersection.normalize()
 
             if (Math.abs(intersection.x) > Math.abs(intersection.y)) {
-                self.vel.x *= -1
+                this.vel.x *= -1
             } else {
-                self.vel.y *= -1
+                this.vel.y *= -1
             }
         });
         this.on(ex.Events.EventTypes.PostUpdate, (ev) => {
-            const self: Ball = this;
-            if (self.pos.x < self.width / 2) {
-                self.vel.x *= -1;
+            if (this.pos.x < this.width / 2) {
+                this.vel.x *= -1;
             }
 
-            if (self.pos.x + self.width / 2 > self.engine.drawWidth) {
-                self.vel.x *= -1;
+            if (this.pos.x + this.width / 2 > this.engine.drawWidth) {
+                this.vel.x *= -1;
             }
 
-            if (self.pos.y < self.height / 2) {
-                self.vel.y *= -1;
+            if (this.pos.y < this.height / 2) {
+                this.vel.y *= -1;
             }
 
-            if (self.pos.y + self.height / 2 > self.engine.drawHeight) {
-                self.engine.currentScene.emit('gameover', new GameEvent<any>())
+            if (this.pos.y + this.height / 2 > this.engine.drawHeight) {
+                this.engine.currentScene.emit('gameover', new GameEvent<any>())
             }
         });
     }

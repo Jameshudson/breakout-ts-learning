@@ -13,8 +13,7 @@ export class Paddle extends ex.Actor {
         this.collisionType = ex.CollisionType.Fixed;
 
         engine.input.pointers.primary.on('move',  (evt) => {
-            const self: Paddle = this;
-            self.pos.x = evt.target.lastWorldPos.x;
+            this.pos.x = evt.target.lastWorldPos.x;
         });
     }
 }
