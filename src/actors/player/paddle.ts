@@ -1,7 +1,8 @@
 import * as ex from 'excalibur';
 
 export class Paddle extends ex.Actor {
-    constructor(pos: ex.Vector) {
+
+    constructor(pos: ex.Vector, engine: ex.Engine) {
         super({
             pos: pos,
             width: 200,
@@ -10,5 +11,9 @@ export class Paddle extends ex.Actor {
         });
 
         this.collisionType = ex.CollisionType.Fixed;
+
+        engine.input.pointers.primary.on('move',  (evt) => {
+            this.pos.x = evt.target.lastWorldPos.x;
+        });
     }
 }
