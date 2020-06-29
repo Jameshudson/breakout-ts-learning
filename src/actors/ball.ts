@@ -2,10 +2,13 @@ import * as ex from 'excalibur';
 import {Brick} from "./brick";
 import {Paddle} from "./player/paddle";
 import {GameEvent} from "excalibur";
+import { Pointer } from 'excalibur/dist/Input';
 
 export class Ball extends ex.Actor {
 
     protected paddle: Paddle;
+
+    protected ballLockedToPaddle = true;
 
     constructor(protected engine: ex.Engine) {
         super({
@@ -22,9 +25,12 @@ export class Ball extends ex.Actor {
                 this.pos.x = ev.target.lastWorldPos.x;
             }
         });
-        this.engine.input.pointers.primary.on('down', (evt) => {
-            this.paddle = null;
-            this.vel.setTo(700, 600);
+        this.engine.input.pointers.primary.on('down', () => {
+            if (this.ballLockedToPaddle) {
+                this.paddle = null;
+                this.vel.setTo(700, 600);
+                this.ballLockedToPaddle = false;
+            }
         });
         this.on(ex.Events.EventTypes.PreCollision, (ev) => {
             const intersection: ex.Vector = ev.intersection.normalize()
