@@ -1,14 +1,14 @@
 import * as ex from 'excalibur';
-import {Brick} from "./brick";
-import {Paddle} from "./player/paddle";
-import {GameEvent} from "excalibur";
-import { Pointer } from 'excalibur/dist/Input';
+import { GameEvent } from "excalibur";
+import { Paddle } from "./player/paddle";
 
 export class Ball extends ex.Actor {
 
     protected paddle: Paddle;
 
     protected ballLockedToPaddle = true;
+
+    protected ballSpeed = 1500;
 
     constructor(protected engine: ex.Engine) {
         super({
@@ -18,17 +18,23 @@ export class Ball extends ex.Actor {
             color: ex.Color.Red
         });
 
-        this.collisionType = ex.CollisionType.Active;
+        this.body.collider.type = ex.CollisionType.Active;
 
-        this.engine.input.pointers.primary.on('move',  (ev) => {
-            if (this.paddle !== null){
-                this.pos.x = ev.target.lastWorldPos.x;
+        this.engine.input.pointers.primary.on('move', (ev) => {
+            if (this.paddle !== null) {
+                this.body.pos.x = ev.target.lastWorldPos.x;
             }
         });
-        this.engine.input.pointers.primary.on('down', () => {
+        this.engine.input.pointers.primary.on('down', (env) => {
             if (this.ballLockedToPaddle) {
                 this.paddle = null;
-                this.vel.setTo(700, 600);
+
+                Math.atan2(this.pos.y - 0, this.pos.x - 0)
+
+                const ballVx = this.ballSpeed*Math.cos(0.50);
+                const ballVy = this.ballSpeed*-Math.sin(0.40);
+
+                this.vel.setTo(ballVx, ballVy);
                 this.ballLockedToPaddle = false;
             }
         });
@@ -42,7 +48,7 @@ export class Ball extends ex.Actor {
             }
         });
         this.on(ex.Events.EventTypes.PostUpdate, (ev) => {
-            if (this.pos.x < this.width / 2) {
+            if (this.body.pos.x < this.width / 2) {
                 this.vel.x *= -1;
             }
 
@@ -56,6 +62,7 @@ export class Ball extends ex.Actor {
 
             if (this.pos.y + this.height / 2 > this.engine.drawHeight) {
                 this.engine.currentScene.emit('gameover', new GameEvent<any>())
+                // this.vel.y *= -1;
             }
         });
     }
@@ -63,7 +70,7 @@ export class Ball extends ex.Actor {
     public draw(ctx, delta) {
         ctx.fillStyle = this.color.toString();
         ctx.beginPath();
-        ctx.arc(this.pos.x, this.pos.y, 10, 0, Math.PI * 2);
+        ctx.arc(this.body.pos.x, this.pos.y, 10, 0, Math.PI * 2);
         ctx.closePath();
         ctx.fill();
     }

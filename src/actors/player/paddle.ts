@@ -10,10 +10,10 @@ export class Paddle extends ex.Actor {
             color: ex.Color.Chartreuse
         });
 
-        this.collisionType = ex.CollisionType.Fixed;
+        this.body.collider.type = ex.CollisionType.Fixed;
 
         engine.input.pointers.primary.on('move',  (evt) => {
-            this.pos.x = evt.target.lastWorldPos.x;
+            this.body.pos.x = evt.target.lastWorldPos.x;
         });
     }
 }

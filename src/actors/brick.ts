@@ -23,7 +23,7 @@ export class Brick extends ex.Actor {
             color: ex.Color.Orange
         });
 
-        this.collisionType = ex.CollisionType.Fixed;
+        this.body.collider.type = ex.CollisionType.Fixed;
 
         this.on(ex.Events.EventTypes.PreCollision, (ev) => {
 

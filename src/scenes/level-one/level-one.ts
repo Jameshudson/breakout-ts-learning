@@ -2,15 +2,14 @@ import * as ex from 'excalibur';
 import {Paddle} from '../../actors/player/paddle';
 import {Ball} from '../../actors/ball';
 import {Brick} from '../../actors/brick';
-import * as Score from '../../events/score';
 
 export class LevelOne extends ex.Scene {
 
-    private _padding: number = 20;
-    private _xoffset: number = 100;
-    private _yoffset: number = 50;
-    private _columns: number = 10;
-    private _rows: number = 6;
+    private padding: number = 20;
+    private xoffset: number = 10;
+    private yoffset: number = 80;
+    private columns: number = 50;
+    private rows: number = 6;
 
     protected score: number = 0;
     protected scoreLabel: ex.Label = null;
@@ -20,7 +19,7 @@ export class LevelOne extends ex.Scene {
         const paddle: Paddle = new Paddle(new ex.Vector(150, engine.drawHeight - 40), engine);
 
         let ball: Ball = new Ball(engine);
-        this.scoreLabel = new ex.Label('Total score: ' + this.score, 50, 50);
+        this.scoreLabel = new ex.Label('Total score: ' + this.score, 50, 75);
 
         this.add(this.scoreLabel);
         this.add(paddle);
@@ -29,13 +28,13 @@ export class LevelOne extends ex.Scene {
         this.scoreLabel.setZIndex(1);
         this.scoreLabel.fontSize = 50;
 
-        const brickWidth = engine.drawWidth / this._columns - this._padding - this._padding / this._columns;
+        const brickWidth = engine.drawWidth / this.columns - this.padding - this.padding / this.columns;
 
-        for (let j = 0; j < this._rows; j++) {
-            for (let i = 0; i < this._columns; i++) {
-                let brick = new Brick(new ex.Vector(
-                    this._xoffset + i * (brickWidth + this._padding) + this._padding,
-                    this._yoffset + j * (30 + this._padding) + this._padding
+        for (let j = 0; j < this.rows; j++) {
+            for (let i = 0; i < this.columns; i++) {
+                const brick = new Brick(new ex.Vector(
+                    this.xoffset + i * (brickWidth + this.padding) + this.padding,
+                    this.yoffset + j * (30 + this.padding) + this.padding
                 ), brickWidth, 30, engine);
 
                 brick.setHealthPoints(j);
@@ -47,11 +46,17 @@ export class LevelOne extends ex.Scene {
             this.score += 10;
             this.scoreLabel.text = 'Total score: ' + this.score;
         });
+
         this.on('gameover', (env) => {
-            const gameOverLabel: ex.Label = new ex.Label('Loser', engine.halfDrawHeight, engine.halfDrawWidth );
+            const gameOverLabel: ex.Label = new ex.Label('You a loser');
+
             gameOverLabel.fontSize = 50;
 
+            gameOverLabel.pos.y = engine.halfCanvasHeight - (gameOverLabel.height / 2);
+            gameOverLabel.pos.x = engine.halfDrawWidth - (gameOverLabel.getTextWidth(engine.ctx) / 2);
+
             this.add(gameOverLabel);
+
             engine.stop();
         })
     }
