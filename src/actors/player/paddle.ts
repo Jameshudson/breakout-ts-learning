@@ -12,8 +12,8 @@ export class Paddle extends ex.Actor {
 
         this.body.collider.type = ex.CollisionType.Fixed;
 
-        engine.input.pointers.primary.on('move',  (evt) => {
-            this.body.pos.x = evt.target.lastWorldPos.x;
+        engine.input.pointers.primary.on('move',  (event: ex.GameEvent<any>) => {
+            this.body.pos.x = event.target.lastWorldPos.x;
         });
     }
 }

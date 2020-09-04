@@ -2,6 +2,8 @@ import * as ex from 'excalibur';
 import {Paddle} from '../../actors/player/paddle';
 import {Ball} from '../../actors/ball';
 import {Brick} from '../../actors/brick';
+import GameOver from '../../events/handlers/GameOver';
+import ScoreUpdate from '../../events/handlers/ScoreUpdate';
 
 export class LevelOne extends ex.Scene {
 
@@ -42,23 +44,8 @@ export class LevelOne extends ex.Scene {
             }
         }
 
-        this.on('scoreupdate', (ev) => {
-            this.score += 10;
-            this.scoreLabel.text = 'Total score: ' + this.score;
-        });
-
-        this.on('gameover', (env) => {
-            const gameOverLabel: ex.Label = new ex.Label('You a loser');
-
-            gameOverLabel.fontSize = 50;
-
-            gameOverLabel.pos.y = engine.halfCanvasHeight - (gameOverLabel.height / 2);
-            gameOverLabel.pos.x = engine.halfDrawWidth - (gameOverLabel.getTextWidth(engine.ctx) / 2);
-
-            this.add(gameOverLabel);
-
-            engine.stop();
-        })
+        this.on('GameOver', GameOver);
+        this.on('ScoreUpdate', ScoreUpdate);
     }
 
     public onActivate() {
